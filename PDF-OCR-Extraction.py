@@ -5,26 +5,30 @@ import fitz
 # (Default) Path to Tesseract installation - Download: https://digi.bib.uni-mannheim.de/tesseract/
 pytesseract.pytesseract.tesseract_cmd=r'C:/Program Files/Tesseract-OCR/tesseract.exe'
 
+# File Paths
+path = 'C:/Path/To/Work/Folder/'
+allPDFFiles = glob.glob(path + "*.pdf")
+textFilePath = (path + "outPut.txt")
+
 # Open PDF, Zoom in for more detail, Write each page to PNG file.
 zoom_x = 2.0
 zoom_y = 2.0
 mat = fitz.Matrix(zoom_x, zoom_y)
 
-path = 'C:/Path/To/Folder/'
-all_files = glob.glob(path + "*.pdf")
-
-for filename in all_files:
-	doc = fitz.open(filename)  # open document
-	for page in doc:  # iterate through the pages
-		pix = page.get_pixmap(matrix=mat)  # render page to an image
-		pix.save("C:/Path/To/Folder/page-%i.png" % page.number)  # store image as a PNG
+for filename in allPDFFiles:
+	doc = fitz.open(filename)
+	for page in doc:
+		pix = page.get_pixmap(matrix=mat)
+		pix.save(filename[:-4] + "-page-%i.png" % page.number)
 
 
 # Use Tesseract OCR and open each PNG file, Scrape text, Dump to text file.
-textFilePath = "C:/Path/To/Folder/outPut.txt"
+allPNGFiles = glob.glob(path + "*.png")
 
-for x in range(177):
-	img = str('C:/Path/To/Folder/page-' + str(x) + ".png")
+for x in range(len(allPNGFiles)):
+	img = allPNGFiles[x]
+
+	print(img)
 	
 	# Adding custom options
 	custom_config = r'--oem 3 --psm 6'
