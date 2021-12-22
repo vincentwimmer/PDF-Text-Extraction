@@ -1,7 +1,7 @@
 import pdfplumber
 import glob
 
-path = 'C:/Users/vwimmer/Documents/Git/Cooper/'
+path = 'C:/Path/To/Work/Folder/'
 all_files = glob.glob(path + "*.pdf")
 textFilePath = (path + "outPut.txt")
 
